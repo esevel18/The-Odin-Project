@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+@font-face {
+    font-family: "Norsebold";
+    src: url(../fonts/norse/Norsebold.otf);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: "Arimo";
+    font-weight: 500;
+}
+
+.container{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.container .sidebar{
+    width: 55%;
+    position: relative;
+}
+
+.sidebar > img{
+    width: 100%;
+    object-fit: cover;
+}
+
+.brand{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0000006f;
+    position: absolute;
+
+    z-index: 1;
+    top: 20%;
+}
+
+.brand > img{
+    width: 15%;
+    object-fit: cover;
+}
+
+.brand h1{
+    color: white;
+    font-family: "Norsebold";
+}
+
+/* REGISTRATION FORM */
+main{
+    width: 100%;
+    background-color: #f7f9fa;
+}
+
+/* INFO */
+.info *{
+    font-weight: 700;
+    margin-top: 10%;
+    margin-left: 40px;
+    font-size: large;
+}
+
+.info span{
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+/* INPUT FORM */
+#registration-form{
+    width: 100%;
+    background-color: #ffffff;
+    border: 2px solid #e2e3e4;
+
+    padding: 2em 0;
+}
+
+#registration-form > *{
+    margin-left: 40px;
+}
+
+.row{
+    display: flex;
+    width: 100%;
+    column-gap: 50px;
+    margin-top: 20px;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    width: 300px;
+    height: 30px;
+    border: 2px solid #E5E7EB;
+    padding: 10px 5px;
+    font-size: medium;
+}
+
+input:focus{
+    border: 2px solid#a148f4;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+#password:user-invalid{
+    border: 2px solid red;
+}
+
+#confirm-password:user-invalid{
+    border: 2px solid red;
+}
+
+/* BUTTON CONTAINER */
+.button-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+button{
+    width: 250px;
+    background-color: #596D48;
+    padding: 15px;
+    border-radius: 10px;
+    border: transparent;
+    color: #f7f9fa;
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.button-container a{
+    text-decoration: none;
+    color: #596D48;
+    cursor: pointer;
+    font-weight: 700;
+}

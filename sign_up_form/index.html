@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script type="module" src="./assets/js/script.js" defer></script>
+    <script type="module" src="./assets/js/register.js" defer></script>
+    <title>Exercise</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="sidebar">
+            <img src="./assets/img/city-img.jpg">
+            <div class="brand">
+                <img src="./assets/img/odin-lined.png">
+                <h1>ODIN</h1>
+            </div>
+        </div>
+        <main>
+            <div class="info">
+                <p>
+                    This is not a real online service! You know you need something<br>
+                    like this in you life to help you realize your deepest dreams.<br>
+                    Sign up now to get started.
+                </p>
+                <span>You know you want to</span>
+            </div>
+            <form id="registration-form">
+                <h2>Let's do this</h2>
+
+                <div class="row">
+                    <div class="input-container">
+                        <label for="first-name">First Name</label>
+                        <input id="first-name" name="first-name" type="text" required>
+                    </div>
+
+                    <div class="input-container">
+                        <label for="last-name">Last Name</label>
+                        <input id="last-name" name="last-name" type="text" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-container">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="phone">Phone Number</label>
+                        <input id="phone" name="phone" type="text" pattern="[0-9]" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-container">
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" required minlength="8">
+                    </div>
+
+                    <div class="input-container">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input id="confirm-password" name="confirm-password" type="password" required minlength="8">
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="button-container">
+                <button form="registration-form">Create Account</button>
+                <span>Already have an account? <a>Log in</a></span>
+            </div>
+        </main>
+
+    </div>
+</body>
+
+</html>
