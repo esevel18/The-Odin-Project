@@ -52,6 +52,19 @@
     font-family: "Norsebold";
 }
 
+.sidebar span{
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+
+    z-index: 1;
+}
+
+.sidebar span,
+.sidebar a{
+    color: white;
+}
+
 /* REGISTRATION FORM */
 main{
     width: 100%;
