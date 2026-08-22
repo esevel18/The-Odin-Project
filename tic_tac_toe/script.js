@@ -50,12 +50,19 @@ function createPlayer(name, token) {
 // 3. make a play
 const gameController = (function () {
     let gameOver = false;
-    const players = [
-        createPlayer("Ana", "O"),
-        createPlayer("Bob", "X")
-    ];
     const board = gameBoard;
-    let activePlayer = players[0];
+
+    let players = [];
+    let activePlayer;
+
+    const startGame = (p1Name, p2Name) => {
+        players = [
+            createPlayer(p1Name, "O"),
+            createPlayer(p2Name, "X")
+        ];
+
+        activePlayer = players[0];
+    };
 
     const getActivePlayer = () => activePlayer;
 
@@ -123,11 +130,6 @@ const gameController = (function () {
         return 0;
     };
 
-    const printNewRoundMsg = () => {
-        board.printBoard();
-        console.log(`${getActivePlayer().name}'s turn.`);
-    };
-
     const newGame = () => {
         board.newBoard();
         activePlayer = players[0];
@@ -136,43 +138,32 @@ const gameController = (function () {
 
     // this where you start the game
     const playRound = (row, col) => {
-        if (gameOver) {
-            return;
-        }
-        console.log(
-            `Marking ${getActivePlayer().token} to cell(${row}, ${col})`
-        );
+        if (gameOver) return;
 
-        const isMarked = board.mark(activePlayer.token, row, col);
+        const isMarked = board.mark(
+            activePlayer.token,
+            row,
+            col
+        );
 
         if (!isMarked) {
             console.log("Invalid move!");
             return;
         }
 
-        // rerender
-        gameDisplayer.reRender();
-
         const gameStatus = checkGameStatus();
 
-        // show win/draw
-        gameDisplayer.displayStatus(gameStatus, activePlayer);
-
-        // the game is finished
         if (gameStatus !== -1) {
             gameOver = true;
-            return;
+            return gameStatus;
         }
 
-        // continue the game
         switchPlayer();
-        printNewRoundMsg();
+
+        return -1;
     };
 
-    // initial message in the beginning of the game
-    printNewRoundMsg();
-
-    return { getActivePlayer, playRound, newGame };
+    return { getActivePlayer, playRound, newGame, startGame };
 })();
 
 // handle all the display logic
@@ -202,7 +193,15 @@ const gameDisplayer = (() => {
             h1.setAttribute("id", "res");
             if (gameStatus === 1) {
                 activePlayer.giveScore();
-                console.log(`${activePlayer.name} score is ${activePlayer.getScore()}`);
+                const scoreContainer = document.getElementsByClassName("score-container")[0];
+                const playersScore = scoreContainer.querySelectorAll("h2");
+
+                if (activePlayer.token === "O") {
+                    playersScore[0].innerHTML = `${activePlayer.name}: ${activePlayer.getScore()}`;
+                } else {
+                    playersScore[1].innerHTML = `${activePlayer.name}: ${activePlayer.getScore()}`;
+                }
+
                 h1.appendChild(document.createTextNode(`${activePlayer.name} is Winning The Game!`));
                 popup.prepend(h1);
                 return;
@@ -216,37 +215,76 @@ const gameDisplayer = (() => {
         }
     }
 
-    return { reRender, displayStatus };
+    const displayScore = (p1Name, p2Name) => {
+        const cont = document.querySelector(".score-container");
+
+        const playersScore = cont.querySelectorAll("h2"); // Select the existing h2 tags
+
+        // Update their text with the new names inputted by the users
+        playersScore[0].innerHTML = `${p1Name}: 0`;
+        playersScore[1].innerHTML = `${p2Name}: 0`;
+    };
+
+    return { reRender, displayStatus, displayScore };
 }
 )();
 
 // HANDLE INPUT 
 function handleCellOnClick(e) {
     e.preventDefault();
+
     const target = e.target;
-    if (target.matches(".cell")) {
-        const board = target.parentElement;
-        const rect = board.getBoundingClientRect();
 
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+    if (!target.matches(".cell")) return;
 
-        const cellWidth = rect.width / 3;
-        const cellHeight = rect.height / 3;
+    const boardElement = target.parentElement;
+    const rect = boardElement.getBoundingClientRect();
 
-        const row = Math.floor(y / cellHeight);
-        const col = Math.floor(x / cellWidth);
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-        gameController.playRound(row, col);
+    const row = Math.floor(y / (rect.height / 3));
+    const col = Math.floor(x / (rect.width / 3));
+
+    const gameStatus = gameController.playRound(row, col);
+
+    gameDisplayer.reRender();
+
+    if (gameStatus !== -1) {
+        gameDisplayer.displayStatus(
+            gameStatus,
+            gameController.getActivePlayer()
+        );
     }
 }
 
-function handleNewGameOnClick(){
+function handleNewGameOnClick() {
     const res = document.querySelector(".popup h1#res");
-    if(res !== null) {
-        res.innerHTML = "";
+
+    if (res !== null) {
+        res.remove();
     }
+
     gameController.newGame();
+    gameDisplayer.reRender();
+}
+
+function handlePlayGame() {
+    const p1Name = document.getElementById("player1").value.trim();
+    const p2Name = document.getElementById("player2").value.trim();
+
+    if (!p1Name || !p2Name) {
+        return;
+    }
+
+    gameController.startGame(p1Name, p2Name);
+
+    document.querySelector(".score-container").classList.remove("hidden");
+    document.querySelector(".tic-tac-toe-container").classList.remove("hidden");
+    document.querySelector(".popup").classList.remove("hidden");
+    document.querySelector(".player-popup").classList.add("hidden");
+
+    gameDisplayer.displayScore(p1Name, p2Name);
     gameDisplayer.reRender();
 }
 
@@ -257,4 +295,7 @@ function handleNewGameOnClick(){
 
     const newGameBtn = document.querySelector(".popup > input[type='button']");
     newGameBtn.addEventListener("click", handleNewGameOnClick);
+
+    const playGameBtn = document.getElementById("play-button");
+    playGameBtn.addEventListener("click", handlePlayGame);
 })();

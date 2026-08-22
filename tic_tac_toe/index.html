@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,27 @@
     <script type="module" src="./script.js" defer></script>
     <title>Tic Tac Toe</title>
 </head>
+
 <body>
-    
-    <div class="score-container">
-        <h1>Score</h1>
-        <h2>Ana: 0</h2>
-        <h2>Bob: 0</h2>
+    <div class="player-popup">
+        <label for="player1">Player 1 Name: </label>
+        <input id="player1" type="text" placeholder="Enter Your Name">
+
+        <label for="player2">Player 2 Name: </label>
+        <input id="player2" type="text" placeholder="Enter Your Name">
+
+        <div class="center-btn">
+            <input id="play-button" type="button" value="Play">
+        </div>
     </div>
 
-    <div class="tic-tac-toe-container">
+    <div class="score-container hidden">
+        <h1>Score:</h1>
+        <h2>Player 1: 0</h2>
+        <h2>Player 2: 0</h2>
+    </div>
+
+    <div class="tic-tac-toe-container hidden">
         <h1>Play Tic Tac Toe Together!</h1>
         <main>
             <div class="cell"></div>
@@ -30,10 +43,12 @@
         </main>
     </div>
 
-    <div class="popup">
+    <div class="popup hidden">
         <!-- <h1></h1> -->
         <h1>Click Here to Start a New Game</h1>
         <input type="button" value="New Game">
     </div>
+
 </body>
+
 </html>
