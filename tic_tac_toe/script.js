@@ -14,8 +14,11 @@ const gameBoard = (function (){
     
     // mark cell
     const mark = (playersToken, r, c) => {
-        const isValid = isValidCell(r, c);
-        if(isValid) board[r][c] = playersToken;
+        if (!isValidCell(r, c)) {
+            return false;
+        }
+        board[r][c] = playersToken;
+        return true;
     };
 
     const printBoard = () => {
@@ -25,7 +28,6 @@ const gameBoard = (function (){
 
     return { getBoard, mark, printBoard };
 })();
-
 
 // Factory to create Player Object
 function createPlayer(name, token){
@@ -125,15 +127,23 @@ const gameController = (function (){
             `Marking ${getActivePlayer().token} to cell(${row}, ${col})`
         );
 
-        board.mark(activePlayer.token, row, col);
+        const isOK = board.mark(activePlayer.token, row, col);
+
+        if (!isOK) {
+            console.log("Invalid move!");
+            return;
+        }
 
         const gameStatus = checkGameStatus();
+        
         if(gameStatus === 1 || gameStatus === 0){
             console.log("END OF THE GAME");
+            
             if (gameStatus === 1) {
                 activePlayer.giveScore();
                 console.log(`${activePlayer.name} score is ${activePlayer.getScore()}`);
             }
+            
             board.printBoard();
             return;
         }
@@ -148,17 +158,57 @@ const gameController = (function (){
     return { getActivePlayer, playRound };
 })();
 
+function handleCellOnClick(e, activePlayer){
+    console.log(activePlayer);
+    
+    e.preventDefault();
+    const target = e.target;
+    if(target.matches(".cell")){
+        const token = activePlayer.token;
 
-gameController.playRound(1, 1);
-gameController.playRound(0, 0);
+        const board = target.parentElement;
+        const rect = board.getBoundingClientRect();
 
-gameController.playRound(2, 0);
-gameController.playRound(0, 2);
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-gameController.playRound(1, 0);
-gameController.playRound(1, 2);
+        const cellWidth = rect.width / 3;
+        const cellHeight = rect.height / 3;
 
-gameController.playRound(2, 2);
-gameController.playRound(2, 1);
+        const row = Math.floor(y / cellHeight);
+        const col = Math.floor(x / cellWidth);
+        
+        gameController.playRound(row, col);
+        gameDisplayer.reRender();
+    }
+}
 
-gameController.playRound(0, 1);
+// handle all the display logic
+const gameDisplayer = (() => {
+    const reRender = () => {
+        const grid = document.querySelector("main");
+        // destroy it first
+        grid.innerHTML = "";
+        // re render
+        gameBoard.getBoard().map( row => 
+            row.map( cell => {                
+                const div = document.createElement("div");
+                div.setAttribute("class", "cell");
+                div.appendChild(document.createTextNode(cell !== null ? cell : ""));
+
+                grid.appendChild(div);
+            })
+        );
+    };
+
+    return { reRender };
+}
+)();
+
+// MAIN FUNCTION
+(function (){
+    const ticTacToe = document.getElementsByClassName("tic-tac-toe-container")[0];
+    ticTacToe.addEventListener("click", (e) => handleCellOnClick(e, gameController.getActivePlayer()));
+
+
+})();
