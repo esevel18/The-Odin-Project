@@ -1,0 +1,43 @@
+div#content{
+    font-family: "Poppins", sans-serif;
+    color: #575757;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div#content > h1{
+    font-family: "DM Serid Display";
+}
+
+.hero-text{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding: 1rem;
+    overflow-wrap: break-word;
+}
+
+.hero-text > button{
+    width: 30%;
+    height: 3em;
+    background-color: #de463e;
+    color: #e6dfd8;
+    font-size: medium;
+}
+
+.hero-text > button:hover{
+    background-color: #df3027;
+}
+
+.hero-img{
+    width: 50%;
+}
+
+.hero-img > img{
+    width: 100%;
+    object-fit: cover;
+    user-select: none;
+    pointer-events: none;
+}
