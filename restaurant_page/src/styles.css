@@ -14,7 +14,7 @@
 body{
     width: 100%;
     height: 100vh;
-    background-color: #efefef;
+    background-color: #fdf9f9;
 }
 
 button{
@@ -70,7 +70,7 @@ nav > button{
 }
 
 nav > button:hover{
-    background-color: #cec9c3;
+    background-color: #dcd7d1;
     transform: scale(1.05);
 }
 
@@ -81,3 +81,6 @@ nav > button:hover{
 
 
 /* CONTENT */
+div#content > h1{
+    font-family: "DM Serid Display";
+}

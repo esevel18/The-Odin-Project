@@ -1,13 +1,8 @@
 div#content{
-    font-family: "Poppins", sans-serif;
     color: #575757;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-div#content > h1{
-    font-family: "DM Serid Display";
 }
 
 .hero-text{
