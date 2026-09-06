@@ -97,5 +97,7 @@ export default function loadMenuPage(){
         grid.appendChild(card);
     });
     
+
+    content.classList.add("menu-content");
     content.appendChild(grid);
 }

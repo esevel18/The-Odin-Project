@@ -54,5 +54,6 @@ export default function loadAboutUsPage() {
 
     container.appendChild(schedule);
     
+    content.classList.add("about-content");
     content.appendChild(container);
 }

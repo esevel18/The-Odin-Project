@@ -77,6 +77,7 @@ nav > button:hover{
 .active-button{
     background-color: #e8e1d9;
     color: var(--font-color);
+    cursor: default;
 }
 
 
